@@ -1,0 +1,8 @@
+Melhores configurações obtidas até o momento nos algoritmos
+
+Haar Cascade:
+- Imagem Original -> Grayscale -> CLAHE
+- scaleFactor=1.15, minNeighbors=7, minSize=(25, 25)
+
+CLAHE:
+- clipLimit=2.0, tileGridSize=(8,8)

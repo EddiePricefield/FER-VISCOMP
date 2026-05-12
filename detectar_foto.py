@@ -22,7 +22,7 @@ clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
 gray_clahe = clahe.apply(gray)
 
 ## Usando o detector ##
-faces = face_cascade.detectMultiScale(gray_clahe, scaleFactor=1.3, minNeighbors=5, minSize=(30, 30))
+faces = face_cascade.detectMultiScale(gray_clahe, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
 ## Desenhando os retângulos onde ele detectou os rostos ##
 for (x, y, w, h) in faces:
