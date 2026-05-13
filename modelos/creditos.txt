@@ -1,0 +1,7 @@
+Deixarei aqui todos os links de onde retirei os modelos ONNX que tentei utilizar para a detecção de emoções
+
+detection.onnx:
+https://github.com/Shohruh72/Emotion_onnx/blob/main/weights/detection.onnx
+
+emotion-ferplus-12-int8:
+https://github.com/onnx/models/tree/main/validated/vision/body_analysis/emotion_ferplus
