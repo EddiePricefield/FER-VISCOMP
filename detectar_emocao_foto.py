@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 face_cascade = cv2.CascadeClassifier('XMLs/haarcascade_frontalface_default.xml')
 
 ## Selecionando o modelo ONNX ##
-session = onnxruntime.InferenceSession("modelos/emotion-ferplus-12-int8.onnx")
+session = onnxruntime.InferenceSession("ONNXs/emotion-ferplus-12-int8.onnx")
 
 input_name = session.get_inputs()[0].name
 emocoes = ['Neutro', 'Feliz', 'Surpreso', 'Triste', 'Bravo', 'Nojo', 'Medo', 'Deboche']

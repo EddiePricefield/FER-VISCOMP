@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 face_cascade = cv2.CascadeClassifier('XMLs/haarcascade_frontalface_default.xml')
 
 ## Importando o video ##
-video = cv2.VideoCapture('videos/icarly.mp4')
+video = cv2.VideoCapture('videos/vines.mp4')
 clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
 
 ## Para evitar que ele pegue apenas o primeiro frame do video, precisa do loop ##
