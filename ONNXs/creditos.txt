@@ -5,3 +5,9 @@ https://github.com/Shohruh72/Emotion_onnx/blob/main/weights/detection.onnx
 
 emotion-ferplus-12-int8:
 https://github.com/onnx/models/tree/main/validated/vision/body_analysis/emotion_ferplus
+
+version-RFB-320-int8:
+https://github.com/onnx/models/tree/main/validated/vision/body_analysis/ultraface
+
+face_detection_yunet_2023mar:
+https://github.com/opencv/opencv_zoo/tree/main/models/face_detection_yunet

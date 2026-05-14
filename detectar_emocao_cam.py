@@ -1,18 +1,12 @@
 import cv2
-import matplotlib
 import numpy
 import onnxruntime
-
-## motor gráfico backend pra funcionar o .show() no arch ##
-matplotlib.use('Qt5Agg')
-
-import matplotlib.pyplot as plt
 
 ## XML Disponibilizado pela OpenCV para reconhecimento facial (2001) ##
 face_cascade = cv2.CascadeClassifier('XMLs/haarcascade_frontalface_default.xml')
 
 ## Selecionando o modelo ONNX ##
-session = onnxruntime.InferenceSession("modelos/emotion-ferplus-12-int8.onnx")
+session = onnxruntime.InferenceSession("ONNXs/emotion-ferplus-12-int8.onnx")
 
 input_name = session.get_inputs()[0].name
 emocoes = ['Neutro', 'Feliz', 'Surpreso', 'Triste', 'Bravo', 'Nojo', 'Medo', 'Deboche']
