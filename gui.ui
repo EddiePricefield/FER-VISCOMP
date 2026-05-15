@@ -171,7 +171,7 @@
      </spacer>
     </item>
     <item alignment="Qt::AlignmentFlag::AlignVCenter">
-     <widget class="QFrame" name="frameFooter">
+     <widget class="QFrame" name="footerLayout">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
         <horstretch>0</horstretch>
