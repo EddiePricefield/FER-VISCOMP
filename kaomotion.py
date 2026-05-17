@@ -1,14 +1,18 @@
 import os
+from enum import Enum
+
 os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 
 import sys
 import cv2
 import numpy
 import onnxruntime
-from PyQt6.QtWidgets import QApplication, QMainWindow
+from PyQt6.QtWidgets import QApplication, QMainWindow, QFileDialog
 from PyQt6.QtCore import QTimer, Qt
 from PyQt6.QtGui import QImage, QPixmap
 from PyQt6 import uic
+from enum import Enum, auto
+from pathlib import Path
 
 class TelaInicial(QMainWindow):
 
@@ -17,8 +21,10 @@ class TelaInicial(QMainWindow):
         uic.loadUi('UIs/tela_inicial.ui', self)
 
         self.btnWebcam.clicked.connect(self.abrir_webcam)
+        self.btnArquivo.clicked.connect(self.abrir_arquivos)
 
         self.tela_webcam = None
+        self.tela_arquivos = None
 
     def abrir_webcam(self):
         if self.tela_webcam is None:
@@ -29,6 +35,62 @@ class TelaInicial(QMainWindow):
         self.tela_webcam.iniciar_cam()
         self.hide()
 
+    def abrir_arquivos(self):
+        if self.tela_arquivos is None:
+            self.tela_arquivos = TelaArquivos(self)
+
+        self.tela_arquivos.selecionar_arquivo()
+        self.tela_arquivos.show()
+        self.hide()
+
+class TelaArquivos(QMainWindow):
+
+    class TipoArquivo(Enum):
+        IMAGEM = auto()
+        VIDEO = auto()
+        DESCONHECIDO = auto()
+
+    def __init__(self, tela_inicial):
+        super().__init__()
+        uic.loadUi('UIs/tela_arquivos.ui', self)
+
+        self.tela_inicial = tela_inicial
+        self.btnVoltarTela.clicked.connect(self.voltar)
+        self.btnSelecArquivo.clicked.connect(self.selecionar_arquivo)
+        self.tipo_arquivo = self.TipoArquivo.DESCONHECIDO
+        self.caminho = None
+
+    def selecionar_arquivo(self):
+
+        ## Explorador de Arquivos nativo do Qt6 ##
+        caminho_arquivo, _ = QFileDialog.getOpenFileName(
+            self,
+            "Selecione uma Imagem ou Vídeo",
+            "",
+            "Arquivo de Imagem (*.png *.jpg *.jpeg);; Arquivo de Vídeo (*.mp4 *.avi *.mkv);;Todos os Arquivos (*)"
+        )
+
+        ## Caso feche sem selecionar algo ##
+        if not caminho_arquivo:
+            return None, None
+
+        extImg = ['.png', '.jpg', '.jpeg', '.bmp']
+        extVideo = ['.mp4', '.avi', '.mkv', '.mov']
+
+        if Path(caminho_arquivo).suffix.lower() in extImg:
+            self.tipo_arquivo = self.TipoArquivo.IMAGEM
+            self.caminho = caminho_arquivo
+        elif Path(caminho_arquivo).suffix.lower() in extVideo:
+            self.tipo_arquivo = self.TipoArquivo.VIDEO
+            self.caminho = caminho_arquivo
+        else:
+            self.tipo_arquivo = self.TipoArquivo.DESCONHECIDO
+            print(f"Aviso: Formato de arquivo não reconhecido.")
+
+    def voltar(self):
+        self.tela_inicial.show()
+        self.hide()
+
 class TelaWebcam(QMainWindow):
 
     def __init__(self, tela_inicial):
@@ -37,7 +99,6 @@ class TelaWebcam(QMainWindow):
 
         self.spinLargura.valueChanged.connect(self.alterar_tamanho_cam)
         self.spinAltura.valueChanged.connect(self.alterar_tamanho_cam)
-
 
         self.tela_inicial = tela_inicial
         self.iniciar_deteccao = True
@@ -92,6 +153,8 @@ class TelaWebcam(QMainWindow):
                 frame = self.img_erro.copy()
             else:
                 return
+
+        cv2.resize(frame, (self.spinLargura.value(), self.spinAltura.value()))
 
         altura, largura = frame.shape[:2]
         self.detector_rostos.setInputSize((largura, altura))
