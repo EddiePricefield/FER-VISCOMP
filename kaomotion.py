@@ -1,4 +1,9 @@
+import importlib
 import os
+import random
+import re
+
+import playground
 os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 
 import sys
@@ -6,8 +11,8 @@ import cv2
 import numpy
 import onnxruntime
 from PyQt6.QtWidgets import QApplication, QMainWindow
-from PyQt6.QtCore import QTimer, Qt
-from PyQt6.QtGui import QImage, QPixmap
+from PyQt6.QtCore import QTimer, Qt, QEvent
+from PyQt6.QtGui import QImage, QPixmap, QSyntaxHighlighter, QTextCharFormat, QColor, QFont
 from PyQt6 import uic
 
 class TelaInicial(QMainWindow):
@@ -17,8 +22,20 @@ class TelaInicial(QMainWindow):
         uic.loadUi('UIs/tela_inicial.ui', self)
 
         self.btnWebcam.clicked.connect(self.abrir_webcam)
+        self.adicionar_imagem()
+        self.kaomoji()
+        
 
         self.tela_webcam = None
+
+    def kaomoji(self):
+        with open('UIs\mojis.txt', 'r', encoding='utf-8') as f:
+            mojis = f.readlines()
+        self.kaomojiLabel.setText(random.choice(mojis).strip())
+
+    def adicionar_imagem(self):
+        logo = QPixmap('imagens/logo-small.png')
+        self.logoLabel.setPixmap(logo)
 
     def abrir_webcam(self):
         if self.tela_webcam is None:
@@ -42,7 +59,18 @@ class TelaWebcam(QMainWindow):
         self.tela_inicial = tela_inicial
         self.iniciar_deteccao = True
 
+        self.ultima_emocao_processada = None
+
+        self.playground = None
+
         self.btnVoltarTela.clicked.connect(self.voltar)
+        self.btnPlayground.clicked.connect(self.abrir_playground)
+
+    def abrir_playground(self):
+        if self.playground is None:
+            self.playground = Playground(self)
+
+        self.playground.show()
 
     def iniciar_cam(self):
         if not self.iniciar_deteccao:
@@ -118,6 +146,16 @@ class TelaWebcam(QMainWindow):
                 predicoes = self.session.run(None, {self.input_name: face_processed})
                 emocao_detectada = self.emocoes[numpy.argmax(predicoes[0])]
 
+                ## Implementação do Playground ##
+                if emocao_detectada != getattr(self, 'ultima_emocao_processada', None):
+                    self.ultima_emocao_processada = emocao_detectada
+                    
+                    nome_da_funcao = f"{emocao_detectada.lower()}"
+                    
+                    if hasattr(playground, nome_da_funcao):
+                        funcao_encontrada = getattr(playground, nome_da_funcao)
+                        funcao_encontrada()
+
                 ## Desenhar a Emoção Acima do Retângulo ##
                 if self.checkTexto.isChecked():
                     cv2.putText(frame, emocao_detectada, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
@@ -185,6 +223,107 @@ class TelaWebcam(QMainWindow):
 
         self.tela_inicial.show()
         self.hide()
+
+class Playground(QMainWindow):
+
+    def __init__(self, tela_webcam=None):
+        super().__init__()
+        uic.loadUi('UIs/playground.ui', self)
+        self.tela_webcam = tela_webcam
+        
+        self.move(1260, 118)
+        tela_webcam.move(200, 118)
+
+        self.setup_highlighter()
+
+        self.textEdit.installEventFilter(self)
+
+        self.abrir_playground()
+        self.btnSalvar.clicked.connect(self.salvar_playground)
+
+    def abrir_playground(self):
+        self.setWindowTitle("Playground")
+        with open('playground.py', 'r', encoding='utf-8') as f:
+            filetext = f.read()
+            self.textEdit.setPlainText(filetext)
+
+    def salvar_playground(self):
+        
+        with open('playground.py', 'w', encoding='utf-8') as f:
+            filetext = self.textEdit.toPlainText()
+            f.write(filetext)
+        
+        importlib.reload(playground)
+
+    # função de tab de 4 espaços para o textEdit
+    def eventFilter(self, obj, event):
+
+        if obj is self.textEdit and event.type() == QEvent.Type.KeyPress:
+            
+            if event.key() == Qt.Key.Key_Tab:
+                
+                self.textEdit.insertPlainText("    ") 
+                return True 
+                
+        return super().eventFilter(obj, event)
+
+    # função para syntax highlighting no textEdit
+    def setup_highlighter(self):
+
+        self.highlighter = Highlighter(self.textEdit.document())
+
+        # Classes
+        class_format = QTextCharFormat()
+        class_format.setFontWeight(QFont.Weight.Bold)
+        class_format.setForeground(QColor("#D65656"))
+        self.highlighter.add_mapping(r'^\s*class\s+\w+\(.*$', class_format)
+
+        # Funções
+        function_format = QTextCharFormat()
+        function_format.setFontWeight(QFont.Weight.Bold)
+        function_format.setForeground(QColor("#569CD6"))
+        self.highlighter.add_mapping(r'^\s*def\s+\w+\s*\(.*\)\s*:\s*$', function_format)
+
+        # Comentarios
+        comment_format = QTextCharFormat()
+        comment_format.setForeground(QColor("#CACACA")) 
+        self.highlighter.add_mapping(r'#.*$', comment_format)
+
+        # Strings
+        string_format = QTextCharFormat()
+        string_format.setForeground(QColor("#CE9178"))
+        self.highlighter.add_mapping(r'".*"', string_format)
+        self.highlighter.add_mapping(r"'.*'", string_format)
+
+        # Palavras-chave
+        keyword_format = QTextCharFormat()
+        keyword_format.setForeground(QColor("#C586C0"))
+        
+        keywords = [
+            r'\bpass\b', r'\bimport\b', r'\bfrom\b', r'\breturn\b', 
+            r'\bif\b', r'\belse\b', r'\belif\b', r'\bprint\b',
+            r'\bTrue\b', r'\bFalse\b', r'\bNone\b', r'\band\b', r'\bor\b'
+        ]
+        for word in keywords:
+            self.highlighter.add_mapping(word, keyword_format)
+
+    print("Playground salvo e recarregado com sucesso!")
+
+# classe para o syntax highlighting
+class Highlighter(QSyntaxHighlighter):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self._mappings = {}
+
+    def add_mapping(self, pattern, format):
+        self._mappings[pattern] = format
+
+    def highlightBlock(self, text):
+        for pattern, format in self._mappings.items():
+            for match in re.finditer(pattern, text):
+                start, end = match.span()
+                self.setFormat(start, end - start, format)
+        
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1045</width>
-    <height>728</height>
+    <width>1051</width>
+    <height>734</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -341,6 +341,33 @@ QPushButton:hover {
                </property>
                <property name="text">
                 <string>Exibir Gráfico</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnPlayground">
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    padding-left: 10px;
+}
+
+QPushButton:hover {
+    background-color: #f0f0f0;
+}</string>
+               </property>
+               <property name="text">
+                <string>Abrir Playground</string>
                </property>
               </widget>
              </item>

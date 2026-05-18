@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>501</height>
+    <width>808</width>
+    <height>624</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -26,26 +26,65 @@
       <property name="orientation">
        <enum>Qt::Orientation::Vertical</enum>
       </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Policy::MinimumExpanding</enum>
+      </property>
       <property name="sizeHint" stdset="0">
        <size>
         <width>20</width>
-        <height>40</height>
+        <height>100</height>
        </size>
       </property>
      </spacer>
     </item>
-    <item>
+    <item alignment="Qt::AlignmentFlag::AlignHCenter">
      <widget class="QLabel" name="logoLabel">
       <property name="styleSheet">
        <string notr="true">color: white; font-size: 72px; font-weight: bold; font-family: 'Inter', 'Segoe UI', sans-serif;</string>
       </property>
       <property name="text">
-       <string>KaoMotion</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/newPrefix/logo-small.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="margin">
+       <number>-10</number>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="kaomojiLabel">
+      <property name="font">
+       <font>
+        <family>Roboto Light</family>
+        <pointsize>32</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>(=◈︿◈=)</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignmentFlag::AlignCenter</set>
       </property>
+      <property name="margin">
+       <number>-2</number>
+      </property>
      </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer_3">
+      <property name="orientation">
+       <enum>Qt::Orientation::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Policy::Fixed</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
     </item>
     <item>
      <widget class="QLabel" name="instrLabel">
@@ -54,9 +93,6 @@
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Comece importando uma imagem, vídeo ou usando sua webcam.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter</set>
       </property>
      </widget>
     </item>
@@ -71,7 +107,7 @@
       <property name="sizeHint" stdset="0">
        <size>
         <width>20</width>
-        <height>70</height>
+        <height>60</height>
        </size>
       </property>
      </spacer>
@@ -79,7 +115,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <spacer name="horizontalSpacer">
+       <spacer name="horizontalSpacer_5">
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
         </property>
@@ -92,8 +128,30 @@
        </spacer>
       </item>
       <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Orientation::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Policy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>100</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QPushButton" name="btnArquivo">
         <property name="minimumSize">
+         <size>
+          <width>160</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
          <size>
           <width>160</width>
           <height>40</height>
@@ -117,8 +175,8 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>15</width>
-          <height>20</height>
+          <width>40</width>
+          <height>15</height>
          </size>
         </property>
        </spacer>
@@ -131,6 +189,12 @@
           <height>40</height>
          </size>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>160</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="styleSheet">
          <string notr="true">QPushButton { background-color: transparent; color: white; border: 1px solid #333333; border-radius: 20px; font-size: 14px; } QPushButton:hover { border: 1px solid #666666; background-color: #111111; }</string>
         </property>
@@ -141,6 +205,22 @@
       </item>
       <item>
        <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Orientation::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Policy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>100</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_6">
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
         </property>
@@ -160,17 +240,17 @@
        <enum>Qt::Orientation::Vertical</enum>
       </property>
       <property name="sizeType">
-       <enum>QSizePolicy::Policy::Expanding</enum>
+       <enum>QSizePolicy::Policy::MinimumExpanding</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>
         <width>20</width>
-        <height>50</height>
+        <height>90</height>
        </size>
       </property>
      </spacer>
     </item>
-    <item alignment="Qt::AlignmentFlag::AlignVCenter">
+    <item>
      <widget class="QFrame" name="frameFooter">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -196,15 +276,12 @@
 }</string>
       </property>
       <property name="frameShape">
-       <enum>QFrame::Shape::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Shadow::Raised</enum>
+       <enum>QFrame::Shape::NoFrame</enum>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item alignment="Qt::AlignmentFlag::AlignRight">
+         <item alignment="Qt::AlignmentFlag::AlignHCenter">
           <widget class="QLabel" name="label">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -225,7 +302,7 @@
        <item>
         <spacer name="horizontalSpacer_4">
          <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeType">
           <enum>QSizePolicy::Policy::Fixed</enum>
@@ -240,7 +317,7 @@
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item alignment="Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter">
+         <item alignment="Qt::AlignmentFlag::AlignHCenter">
           <widget class="QLabel" name="label_2">
            <property name="text">
             <string>Github ➜</string>
@@ -255,6 +332,8 @@
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../imagens/logo.qrc"/>
+ </resources>
  <connections/>
 </ui>
