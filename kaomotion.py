@@ -1,6 +1,8 @@
 import os
 from enum import Enum
 
+from PyQt6.uic.Compiler.qtproxies import QtGui
+
 os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 
 import sys
@@ -8,8 +10,8 @@ import cv2
 import numpy
 import onnxruntime
 from PyQt6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
-from PyQt6.QtCore import QTimer, Qt
-from PyQt6.QtGui import QImage, QPixmap
+from PyQt6.QtCore import QTimer
+from PyQt6.QtGui import QImage, QPixmap, QResizeEvent
 from PyQt6 import uic
 from enum import Enum, auto
 from pathlib import Path
@@ -53,9 +55,17 @@ class TelaArquivos(QMainWindow):
         VIDEO = auto()
         DESCONHECIDO = auto()
 
+    def resizeEvent(self, event):
+        self.maxViewX = self.viewArquivo.width()
+        self.maxViewY = self.viewArquivo.height()
+        super().resizeEvent(event)
+
     def __init__(self, tela_inicial):
         super().__init__()
         uic.loadUi('UIs/tela_arquivos.ui', self)
+
+        self.maxViewX = self.viewArquivo.width()
+        self.maxViewY = self.viewArquivo.height()
 
         self.tela_inicial = tela_inicial
         self.btnVoltarTela.clicked.connect(self.voltar)
@@ -85,6 +95,13 @@ class TelaArquivos(QMainWindow):
 
         if Path(caminho_arquivo).suffix.lower() in extImg:
             tipo_arquivo = self.TipoArquivo.IMAGEM
+
+            if self.timer is not None:
+                self.timer.stop()
+
+            if self.cam is not None:
+                self.cam.release()
+
             self.tela_inicial.arqErrado = False
         elif Path(caminho_arquivo).suffix.lower() in extVideo:
             tipo_arquivo = self.TipoArquivo.VIDEO
@@ -147,10 +164,7 @@ class TelaArquivos(QMainWindow):
         self.detector_rostos.setInputSize((largura, altura))
         _, faces = self.detector_rostos.detect(frame)
 
-        self.ratio = 1.0
-
-        if largura > self.viewArquivo.width() or altura > self.viewArquivo.height():
-            self.ratio = min(self.viewArquivo.width() / largura, self.viewArquivo.height() / altura)
+        self.ratio = min(self.maxViewX / largura, self.maxViewY / altura)
 
         frame_resized = cv2.resize(frame, (int(largura * self.ratio), int(altura * self.ratio)))
 
@@ -182,7 +196,7 @@ class TelaArquivos(QMainWindow):
                 if pos_y_texto < 10:
                     pos_y_texto = y_tela + 15
 
-                cv2.putText(frame_resized, emocao_detectada, (x_tela - 1, pos_y_texto + 1), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (111, 111, 111), 2)
+                cv2.putText(frame_resized, emocao_detectada, (x_tela - 1, pos_y_texto + 1), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
                 cv2.putText(frame_resized, emocao_detectada, (x_tela, pos_y_texto), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 
         rgb_image = cv2.cvtColor(frame_resized, cv2.COLOR_BGR2RGB).astype(numpy.uint8)
