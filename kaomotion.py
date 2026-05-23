@@ -9,12 +9,29 @@ import sys
 import cv2
 import numpy
 import onnxruntime
-from PyQt6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
+from PyQt6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QDialog
 from PyQt6.QtCore import QTimer
 from PyQt6.QtGui import QImage, QPixmap, QResizeEvent
 from PyQt6 import uic
 from enum import Enum, auto
 from pathlib import Path
+
+compressao = 0
+
+class JanelaCompressao(QDialog):
+
+    def __init__(self, parent=None):
+        super().__init__()
+        uic.loadUi('UIs/janela_compressao.ui', self)
+
+        self.compressSlider.valueChanged.connect(self.compressSpin.setValue)
+        self.compressSpin.valueChanged.connect(self.compressSlider.setValue)
+
+    def accept(self):
+        global compressao
+        compressao = self.compressSpin.value()
+        super().accept()
+
 
 class TelaInicial(QMainWindow):
 
@@ -70,10 +87,29 @@ class TelaArquivos(QMainWindow):
         self.tela_inicial = tela_inicial
         self.btnVoltarTela.clicked.connect(self.voltar)
         self.btnSelecArquivo.clicked.connect(self.selecionar_arquivo)
+        self.btnControleVideo.clicked.connect(self.controle_video)
         self.tipo_arquivo = self.TipoArquivo.DESCONHECIDO
         self.caminho = None
         self.cam = None
         self.timer = None
+        self.reproducao = False
+
+    def controle_video(self):
+
+        if (self.reproducao):
+
+            if self.timer is not None:
+                self.btnControleVideo.setText(" ▶")
+                self.btnControleVideo.setToolTip("Continuar reprodução do vídeo")
+                self.timer.stop()
+                self.reproducao = False
+
+        else:
+            if self.timer is not None:
+                self.btnControleVideo.setText("⏸")
+                self.btnControleVideo.setToolTip("Pausar vídeo")
+                self.timer.start(30)
+                self.reproducao = True
 
     def selecionar_arquivo(self):
 
@@ -102,15 +138,23 @@ class TelaArquivos(QMainWindow):
             if self.cam is not None:
                 self.cam.release()
 
+            self.btnControleVideo.setEnabled(False)
             self.tela_inicial.arqErrado = False
         elif Path(caminho_arquivo).suffix.lower() in extVideo:
             tipo_arquivo = self.TipoArquivo.VIDEO
+            self.btnControleVideo.setEnabled(True)
             self.tela_inicial.arqErrado = False
+            self.comprimir_video()
         else:
             tipo_arquivo = self.TipoArquivo.DESCONHECIDO
+            self.btnControleVideo.setEnabled(False)
             self.tela_inicial.arqErrado = True
 
         self.iniciar_arquivo(caminho_arquivo, tipo_arquivo)
+
+    def comprimir_video(self):
+        self.janela_compressao = JanelaCompressao(self)
+        self.janela_compressao.exec()
 
     def iniciar_arquivo(self, caminho, tipo_arquivo):
         if tipo_arquivo is self.TipoArquivo.DESCONHECIDO:
@@ -151,6 +195,9 @@ class TelaArquivos(QMainWindow):
         if not ret or frame is None:
             self.timer.stop()
             return
+
+        if compressao != 0:
+            frame = cv2.resize(frame, None, fx=((100 - compressao) / 100), fy=((100 - compressao) / 100))
 
         self.processar_arquivo(frame)
 

@@ -140,12 +140,84 @@
                 text-align: center;
                 padding-left: 15px;
             }
+
             QPushButton:hover {
-                background-color: #1a1a1a;
-            }</string>
+               	border: 1px solid #666666;
+					background-color: #111111;
+            }
+
+			QPushButton:disabled {
+					background-color: #d3d3d3; 
+					color: #a0a0a0;            
+					border: 1px solid #c0c0c0; 
+}</string>
               </property>
               <property name="text">
                <string>← Voltar à tela inicial      </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Policy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>10</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btnControleVideo">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>35</width>
+                <height>35</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Pausar video</string>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LayoutDirection::LeftToRight</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">
+            QPushButton {
+                background-color: #1a1a1a;
+                color: white;
+                border: 1px solid #333;
+                border-radius: 16px;
+                font-size: 14px;
+                text-align: center;
+                padding-left: 0px;
+            }
+
+            QPushButton:hover {
+               	border: 1px solid #666666;
+					background-color: #111111;
+            }
+
+			QPushButton:disabled {
+					background-color: #d3d3d3; 
+					color: #a0a0a0;            
+					border: 1px solid #c0c0c0; 
+}</string>
+              </property>
+              <property name="text">
+               <string>⏸</string>
               </property>
              </widget>
             </item>
@@ -159,7 +231,7 @@
               </property>
               <property name="sizeHint" stdset="0">
                <size>
-                <width>20</width>
+                <width>10</width>
                 <height>20</height>
                </size>
               </property>
@@ -190,9 +262,17 @@
                 text-align: center;
                 padding-left: 15px;
             }
+
             QPushButton:hover {
-                background-color: #1a1a1a;
-            }</string>
+               	border: 1px solid #666666;
+					background-color: #111111
+            }
+
+			QPushButton:disabled {
+					background-color: #d3d3d3; 
+					color: #a0a0a0;            
+					border: 1px solid #c0c0c0; 
+}</string>
               </property>
               <property name="text">
                <string>Importar Arquivo 📄</string>

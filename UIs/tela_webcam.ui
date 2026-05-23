@@ -97,7 +97,8 @@
                 padding-left: 15px;
             }
             QPushButton:hover {
-                background-color: #1a1a1a;
+               	border: 1px solid #666666;
+					background-color: #111111;
             }</string>
             </property>
             <property name="text">
