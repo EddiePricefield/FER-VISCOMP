@@ -108,7 +108,7 @@ class TelaArquivos(QMainWindow):
             if self.timer is not None:
                 self.btnControleVideo.setText("⏸")
                 self.btnControleVideo.setToolTip("Pausar vídeo")
-                self.timer.start(30)
+                self.timer.start()
                 self.reproducao = True
 
     def selecionar_arquivo(self):
@@ -183,8 +183,9 @@ class TelaArquivos(QMainWindow):
 
             # Inicia o loop
             self.timer = QTimer()
+            self.fps = self.cam.get(cv2.CAP_PROP_FPS)
             self.timer.timeout.connect(self.atualizar_frame_video)
-            self.timer.start(30)
+            self.timer.start(int(1000 / self.fps))
 
     def atualizar_frame_video(self):
         if self.cam is None or not self.cam.isOpened():
@@ -312,8 +313,9 @@ class TelaWebcam(QMainWindow):
 
         ## Timer ##
         self.timer = QTimer()
+        self.fps = self.cam.get(cv2.CAP_PROP_FPS)
         self.timer.timeout.connect(self.atualizar_frame)
-        self.timer.start(30)
+        self.timer.start(int(1000 / self.fps))
 
     def atualizar_frame(self):
         if self.cam is None or not self.cam.isOpened():
