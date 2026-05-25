@@ -61,11 +61,13 @@ class TelaInicial(QMainWindow):
         if self.tela_arquivos is None:
             self.tela_arquivos = TelaArquivos(self)
 
+        self.tela_arquivos.show()
         self.tela_arquivos.selecionar_arquivo()
 
         if not self.arqErrado:
-            self.tela_arquivos.show()
             self.hide()
+        else:
+            self.tela_arquivos.hide()
 
 class TelaArquivos(QMainWindow):
 
