@@ -200,7 +200,35 @@
               </layout>
              </item>
              <item>
-              <spacer name="verticalSpacer_5">
+              <widget class="QPushButton" name="btnAlterarCores">
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+    background-color: #1a1a1a;
+    color: white;
+    border: 1px solid #333;
+    border-radius: 8px;
+    text-align: center;
+    padding-left: 10px;
+}
+
+QPushButton:hover {
+    background-color: #222;
+}
+              </string>
+               </property>
+               <property name="text">
+                <string>Alterar Cores</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_3">
                <property name="orientation">
                 <enum>Qt::Orientation::Vertical</enum>
                </property>
@@ -302,23 +330,65 @@
               </layout>
              </item>
              <item>
-              <spacer name="verticalSpacer_side">
+              <spacer name="verticalSpacer_4">
                <property name="orientation">
                 <enum>Qt::Orientation::Vertical</enum>
                </property>
                <property name="sizeType">
-                <enum>QSizePolicy::Policy::Expanding</enum>
+                <enum>QSizePolicy::Policy::Fixed</enum>
                </property>
                <property name="sizeHint" stdset="0">
                 <size>
-                 <width>0</width>
-                 <height>40</height>
+                 <width>20</width>
+                 <height>10</height>
                 </size>
                </property>
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="btnGrafico">
+              <widget class="QLabel" name="label_5">
+               <property name="styleSheet">
+                <string notr="true">
+               color: #888;
+               font-weight: bold;
+               font-size: 12px;
+              </string>
+               </property>
+               <property name="text">
+                <string>Gráfico de Emoções</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="PlotWidget" name="graficoEmocoes">
+               <property name="styleSheet">
+                <string notr="true">PlotWidget {
+    background-color: #1a1a1a;
+    color: white;
+    border: 1px solid #333;
+    border-radius: 5px;
+}</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Orientation::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Policy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>10</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnReset">
                <property name="minimumSize">
                 <size>
                  <width>150</width>
@@ -341,7 +411,7 @@ QPushButton:hover {
               </string>
                </property>
                <property name="text">
-                <string>Exibir Gráfico</string>
+                <string>Reiniciar Módulo</string>
                </property>
               </widget>
              </item>
@@ -570,6 +640,13 @@ QPushButton:hover {
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QGraphicsView</extends>
+   <header>pyqtgraph</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
