@@ -1,8 +1,6 @@
 import os
 from enum import Enum
 
-from PyQt6.uic.Compiler.qtproxies import QtGui
-
 os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 
 import sys
@@ -85,9 +83,6 @@ class TelaArquivos(QMainWindow):
         super().__init__()
         uic.loadUi('UIs/tela_arquivos.ui', self)
 
-        self.maxViewX = self.viewArquivo.width()
-        self.maxViewY = self.viewArquivo.height()
-
         self.tela_inicial = tela_inicial
         self.btnVoltarTela.clicked.connect(self.voltar)
         self.btnSelecArquivo.clicked.connect(self.selecionar_arquivo)
@@ -161,6 +156,10 @@ class TelaArquivos(QMainWindow):
         self.janela_compressao.exec()
 
     def iniciar_arquivo(self, caminho, tipo_arquivo):
+
+        self.maxViewX = self.viewArquivo.width()
+        self.maxViewY = self.viewArquivo.height()
+
         if tipo_arquivo is self.TipoArquivo.DESCONHECIDO:
             QMessageBox.information(self, "Erro: Arquivo não suportado", "O arquivo selecionado possui uma extensão não suportada pelo programa! Selecione outro arquivo.")
             return
