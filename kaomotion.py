@@ -129,7 +129,7 @@ class TelaArquivos(QMainWindow):
         extVideo = ['.mp4', '.avi', '.mkv', '.mov']
 
         if Path(caminho_arquivo).suffix.lower() in extImg:
-            tipo_arquivo = self.TipoArquivo.IMAGEM
+            self.tipo_arquivo = self.TipoArquivo.IMAGEM
 
             if self.timer is not None:
                 self.timer.stop()
@@ -140,27 +140,27 @@ class TelaArquivos(QMainWindow):
             self.btnControleVideo.setEnabled(False)
             self.tela_inicial.arqErrado = False
         elif Path(caminho_arquivo).suffix.lower() in extVideo:
-            tipo_arquivo = self.TipoArquivo.VIDEO
+            self.tipo_arquivo = self.TipoArquivo.VIDEO
             self.btnControleVideo.setEnabled(True)
             self.tela_inicial.arqErrado = False
             self.comprimir_video()
         else:
-            tipo_arquivo = self.TipoArquivo.DESCONHECIDO
+            self.tipo_arquivo = self.TipoArquivo.DESCONHECIDO
             self.btnControleVideo.setEnabled(False)
             self.tela_inicial.arqErrado = True
 
-        self.iniciar_arquivo(caminho_arquivo, tipo_arquivo)
+        self.iniciar_arquivo(caminho_arquivo)
 
     def comprimir_video(self):
         self.janela_compressao = JanelaCompressao(self)
         self.janela_compressao.exec()
 
-    def iniciar_arquivo(self, caminho, tipo_arquivo):
+    def iniciar_arquivo(self, caminho):
 
         self.maxViewX = self.viewArquivo.width()
         self.maxViewY = self.viewArquivo.height()
 
-        if tipo_arquivo is self.TipoArquivo.DESCONHECIDO:
+        if self.tipo_arquivo is self.TipoArquivo.DESCONHECIDO:
             QMessageBox.information(self, "Erro: Arquivo não suportado", "O arquivo selecionado possui uma extensão não suportada pelo programa! Selecione outro arquivo.")
             return
 
@@ -173,11 +173,11 @@ class TelaArquivos(QMainWindow):
 
         self.clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
 
-        if tipo_arquivo is self.TipoArquivo.IMAGEM:
+        if self.tipo_arquivo is self.TipoArquivo.IMAGEM:
             img = cv2.imread(caminho)
             self.processar_arquivo(img)
 
-        elif tipo_arquivo is self.TipoArquivo.VIDEO:
+        elif self.tipo_arquivo is self.TipoArquivo.VIDEO:
             self.cam = cv2.VideoCapture(caminho)
 
             if not self.cam.isOpened():
@@ -208,6 +208,16 @@ class TelaArquivos(QMainWindow):
     def processar_arquivo(self, frame):
 
         altura, largura = frame.shape[:2]
+
+        if self.tipo_arquivo is self.TipoArquivo.IMAGEM:
+            if altura >= 720 or largura >= 1280:
+
+                if (altura - 720) < (largura - 1280):
+                    frame = cv2.resize(frame, ((largura * 1280) // altura, 1280))
+                else:
+                    frame = cv2.resize(frame, (720, (altura * 720) // largura))
+
+                altura, largura = frame.shape[:2]
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         gray_clahe = self.clahe.apply(gray)
