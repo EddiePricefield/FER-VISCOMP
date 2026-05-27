@@ -1,6 +1,8 @@
 import os
 from enum import Enum
 
+from onnxruntime import cuda_version
+
 os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 
 import sys
@@ -16,6 +18,7 @@ from enum import Enum, auto
 from pathlib import Path
 
 compressao = 0
+intervalo_frames = 2
 color = QColor(0, 0, 255)
 
 class JanelaCompressao(QDialog):
@@ -92,6 +95,7 @@ class TelaArquivos(QMainWindow):
         self.cam = None
         self.timer = None
         self.reproducao = False
+        self.contador_frames = 0
 
     def controle_video(self):
 
@@ -219,46 +223,48 @@ class TelaArquivos(QMainWindow):
 
                 altura, largura = frame.shape[:2]
 
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        gray_clahe = self.clahe.apply(gray)
+        if self.contador_frames == intervalo_frames:
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            gray_clahe = self.clahe.apply(gray)
 
-        self.detector_rostos.setInputSize((largura, altura))
-        _, faces = self.detector_rostos.detect(frame)
+            self.detector_rostos.setInputSize((largura, altura))
+            _, faces = self.detector_rostos.detect(frame)
 
         self.ratio = min(self.maxViewX / largura, self.maxViewY / altura)
 
         frame_resized = cv2.resize(frame, (int(largura * self.ratio), int(altura * self.ratio)))
 
-        if faces is not None:
-            for rosto in faces:
-                x, y, w, h = int(rosto[0]), int(rosto[1]), int(rosto[2]), int(rosto[3])
-                x, y = max(0, x), max(0, y)
-                x2, y2 = min(largura, x + w), min(altura, y + h)
+        if self.contador_frames == intervalo_frames:
+            if faces is not None:
+                for rosto in faces:
+                    x, y, w, h = int(rosto[0]), int(rosto[1]), int(rosto[2]), int(rosto[3])
+                    x, y = max(0, x), max(0, y)
+                    x2, y2 = min(largura, x + w), min(altura, y + h)
 
-                face = gray_clahe[y:y2, x:x2]
+                    face = gray_clahe[y:y2, x:x2]
 
-                if face.shape[0] == 0 or face.shape[1] == 0:
-                    continue
+                    if face.shape[0] == 0 or face.shape[1] == 0:
+                        continue
 
-                face_resized = cv2.resize(face, (64, 64))
-                face_processed = numpy.array(face_resized, dtype=numpy.float32).reshape(1, 1, 64, 64)
-                predicoes = self.session.run(None, {self.input_name: face_processed})
-                emocao_detectada = self.emocoes[numpy.argmax(predicoes[0])]
+                    face_resized = cv2.resize(face, (64, 64))
+                    face_processed = numpy.array(face_resized, dtype=numpy.float32).reshape(1, 1, 64, 64)
+                    predicoes = self.session.run(None, {self.input_name: face_processed})
+                    emocao_detectada = self.emocoes[numpy.argmax(predicoes[0])]
 
-                x_tela = int(x * self.ratio)
-                y_tela = int(y * self.ratio)
-                x2_tela = int(x2 * self.ratio)
-                y2_tela = int(y2 * self.ratio)
+                    x_tela = int(x * self.ratio)
+                    y_tela = int(y * self.ratio)
+                    x2_tela = int(x2 * self.ratio)
+                    y2_tela = int(y2 * self.ratio)
 
-                cv2.rectangle(frame_resized, (x_tela, y_tela), (x2_tela, y2_tela), (255, 0, 0), 2)
+                    cv2.rectangle(frame_resized, (x_tela, y_tela), (x2_tela, y2_tela), (255, 0, 0), 2)
 
-                pos_y_texto = y_tela - 5
+                    pos_y_texto = y_tela - 5
 
-                if pos_y_texto < 10:
-                    pos_y_texto = y_tela + 15
+                    if pos_y_texto < 10:
+                        pos_y_texto = y_tela + 15
 
-                cv2.putText(frame_resized, emocao_detectada, (x_tela - 1, pos_y_texto + 1), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
-                cv2.putText(frame_resized, emocao_detectada, (x_tela, pos_y_texto), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+                    cv2.putText(frame_resized, emocao_detectada, (x_tela - 1, pos_y_texto + 1), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
+                    cv2.putText(frame_resized, emocao_detectada, (x_tela, pos_y_texto), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 
         rgb_image = cv2.cvtColor(frame_resized, cv2.COLOR_BGR2RGB).astype(numpy.uint8)
         h, w, ch = rgb_image.shape
@@ -267,6 +273,13 @@ class TelaArquivos(QMainWindow):
         qt_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format.Format_RGB888)
         pixmap = QPixmap.fromImage(qt_image)
         self.viewArquivo.setPixmap(pixmap)
+
+        print(self.contador_frames)
+
+        if self.contador_frames != intervalo_frames:
+            self.contador_frames += 1
+        else:
+            self.contador_frames = 0
 
     def voltar(self):
         self.detector_rostos = None
