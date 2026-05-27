@@ -1,4 +1,5 @@
 import os
+import random
 from enum import Enum
 
 os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
@@ -10,8 +11,8 @@ import pyqtgraph
 import onnxruntime
 from PyQt6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QDialog, QColorDialog
 from PyQt6.QtCore import QTimer
-from PyQt6.QtGui import QImage, QPixmap, QColor
-from PyQt6 import uic
+from PyQt6.QtGui import QImage, QPixmap, QColor, QIcon
+from PyQt6 import uic, QtGui
 from enum import Enum, auto
 from pathlib import Path
 
@@ -38,6 +39,15 @@ class TelaInicial(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('UIs/tela_inicial.ui', self)
+        self.setWindowIcon(QtGui.QIcon('imagens/icon.png'))
+
+        logo = "imagens/logo-small.png"
+        pixmapLogo = QPixmap(logo)
+        self.logoLabel.setPixmap(pixmapLogo)
+        self.kaomoji()
+
+        self.btnKaomoji.clicked.connect(self.kaomoji)
+
 
         self.btnWebcam.clicked.connect(self.abrir_webcam)
         self.btnArquivo.clicked.connect(self.abrir_arquivos)
@@ -67,6 +77,12 @@ class TelaInicial(QMainWindow):
         else:
             self.tela_arquivos.hide()
 
+    def kaomoji(self):
+        with open('UIs/mojis.txt', 'r', encoding='utf-8') as f:
+            mojis = f.readlines()
+            self.btnKaomoji.setStyleSheet("QPushButton {border: none; outline: none;}")
+            self.btnKaomoji.setText(random.choice(mojis).strip())
+
 class TelaArquivos(QMainWindow):
 
     class TipoArquivo(Enum):
@@ -82,6 +98,7 @@ class TelaArquivos(QMainWindow):
     def __init__(self, tela_inicial):
         super().__init__()
         uic.loadUi('UIs/tela_arquivos.ui', self)
+        self.setWindowIcon(QtGui.QIcon('imagens/icon.png'))
 
         self.tela_inicial = tela_inicial
         self.btnVoltarTela.clicked.connect(self.voltar)
@@ -98,7 +115,7 @@ class TelaArquivos(QMainWindow):
         if (self.reproducao):
 
             if self.timer is not None:
-                self.btnControleVideo.setText(" ▶")
+                self.btnControleVideo.setText("▶")
                 self.btnControleVideo.setToolTip("Continuar reprodução do vídeo")
                 self.timer.stop()
                 self.reproducao = False
@@ -117,7 +134,7 @@ class TelaArquivos(QMainWindow):
             self,
             "Selecione uma Imagem ou Vídeo",
             "",
-            "Arquivo de Imagem (*.png *.jpg *.jpeg);; Arquivo de Vídeo (*.mp4 *.avi *.mkv);;Todos os Arquivos (*)"
+            "Todos os Arquivos (*)"
         )
 
         ## Caso feche sem selecionar algo ##
@@ -210,12 +227,12 @@ class TelaArquivos(QMainWindow):
         altura, largura = frame.shape[:2]
 
         if self.tipo_arquivo is self.TipoArquivo.IMAGEM:
-            if altura >= 1440 or largura >= 2560:
+            if altura >= 720 or largura >= 1280:
 
-                if (altura - 1440) < (largura - 2580):
-                    frame = cv2.resize(frame, ((largura * 1440) // altura, 1440))
+                if (altura - 720) < (largura - 1280):
+                    frame = cv2.resize(frame, ((largura * 1280) // altura, 1280))
                 else:
-                    frame = cv2.resize(frame, (2560, (altura * 2560) // largura))
+                    frame = cv2.resize(frame, (720, (altura * 720) // largura))
 
                 altura, largura = frame.shape[:2]
 
@@ -286,6 +303,7 @@ class TelaWebcam(QMainWindow):
     def __init__(self, tela_inicial):
         super().__init__()
         uic.loadUi('UIs/tela_webcam.ui', self)
+        self.setWindowIcon(QtGui.QIcon('imagens/icon.png'))
 
         self.tela_inicial = tela_inicial
         self.iniciar_deteccao = True
