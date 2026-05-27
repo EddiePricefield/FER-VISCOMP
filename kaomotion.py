@@ -117,7 +117,7 @@ class TelaArquivos(QMainWindow):
             self,
             "Selecione uma Imagem ou Vídeo",
             "",
-            "Arquivo de Imagem (*.png *.jpg *.jpeg);; Arquivo de Vídeo (*.mp4 *.avi *.mkv);;Todos os Arquivos (*)"
+            "Todos os Arquivos (*)"
         )
 
         ## Caso feche sem selecionar algo ##

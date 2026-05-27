@@ -41,6 +41,9 @@
    <property name="maximum">
     <number>99</number>
    </property>
+   <property name="value">
+    <number>50</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Orientation::Horizontal</enum>
    </property>
@@ -150,7 +153,7 @@
     <bool>true</bool>
    </property>
    <property name="value">
-    <number>0</number>
+    <number>50</number>
    </property>
   </widget>
  </widget>
