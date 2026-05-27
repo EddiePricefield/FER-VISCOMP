@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f21fff0b-bff3-44a9-bae8-ee1b73ce7747" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/imagens/logo-small.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/imagens/logo.qrc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UIs/logo-small.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UIs/tela-inicial.qrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UIs/janela_compressao.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UIs/janela_compressao.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UIs/mojis.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UIs/tela_arquivos.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UIs/tela_arquivos.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UIs/tela_inicial.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UIs/tela_inicial.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kaomotion.py" beforeDir="false" afterPath="$PROJECT_DIR$/kaomotion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/imagens/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/imagens/logo-small.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/imagens/logo.qrc" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,20 +35,10 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+    "last_opened_file_path": "/home/eddie/Documentos/GitHub/FER-VISCOMP"
   }
 }]]></component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-python-sdk-024ed6589d45-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.23567.174" />
-      </set>
-    </attachedChunks>
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="f21fff0b-bff3-44a9-bae8-ee1b73ce7747" name="Changes" comment="" />
@@ -55,15 +46,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1778988357993</updated>
-      <workItem from="1779842414210" duration="333000" />
-      <workItem from="1779898367933" duration="991000" />
     </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/FER_VISCOMP$kaomotion.coverage" NAME="kaomotion Coverage Results" MODIFIED="1779898775518" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
