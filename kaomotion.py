@@ -47,8 +47,6 @@ class TelaInicial(QMainWindow):
         self.kaomoji()
 
         self.btnKaomoji.clicked.connect(self.kaomoji)
-
-
         self.btnWebcam.clicked.connect(self.abrir_webcam)
         self.btnArquivo.clicked.connect(self.abrir_arquivos)
 
@@ -227,7 +225,7 @@ class TelaArquivos(QMainWindow):
         altura, largura = frame.shape[:2]
 
         if self.tipo_arquivo is self.TipoArquivo.IMAGEM:
-            if altura >= 720 or largura >= 1280:
+            if altura >= 720 and largura >= 1280:
 
                 if (altura - 720) < (largura - 1280):
                     frame = cv2.resize(frame, ((largura * 1280) // altura, 1280))
