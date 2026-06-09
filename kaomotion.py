@@ -11,7 +11,7 @@ import pyqtgraph
 import onnxruntime
 from PyQt6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QDialog, QColorDialog
 from PyQt6.QtCore import QTimer
-from PyQt6.QtGui import QImage, QPixmap, QColor, QIcon
+from PyQt6.QtGui import QFont, QImage, QPixmap, QColor, QIcon, QFontDatabase
 from PyQt6 import uic, QtGui
 from enum import Enum, auto
 from pathlib import Path
@@ -78,7 +78,7 @@ class TelaInicial(QMainWindow):
     def kaomoji(self):
         with open('UIs/mojis.txt', 'r', encoding='utf-8') as f:
             mojis = f.readlines()
-            self.btnKaomoji.setStyleSheet("QPushButton {border: none; outline: none;}")
+            self.btnKaomoji.setStyleSheet("QPushButton {border: none; outline: none; color: white;}")
             self.btnKaomoji.setText(random.choice(mojis).strip())
 
 class TelaArquivos(QMainWindow):

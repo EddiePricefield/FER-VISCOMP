@@ -71,6 +71,11 @@
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+		color: white
+}</string>
+      </property>
       <property name="text">
        <string>(=◈︿◈=)</string>
       </property>
@@ -265,6 +270,11 @@
            </property>
            <property name="layoutDirection">
             <enum>Qt::LayoutDirection::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+		color:white;
+}</string>
            </property>
            <property name="text">
             <string>Documentação</string>

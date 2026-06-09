@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f21fff0b-bff3-44a9-bae8-ee1b73ce7747" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UIs/janela_compressao.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UIs/janela_compressao.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UIs/mojis.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UIs/tela_arquivos.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UIs/tela_arquivos.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UIs/tela_inicial.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UIs/tela_inicial.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/imagens/icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/imagens/logo-small.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/imagens/logo.qrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kaomotion.py" beforeDir="false" afterPath="$PROJECT_DIR$/kaomotion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UIs/tela_webcam.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UIs/tela_webcam.ui" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,17 +21,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.kaomotion.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/eddie/Documentos/GitHub/FER-VISCOMP"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.kaomotion.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/eddie/Documentos/GitHub/FER-VISCOMP&quot;
   }
-}]]></component>
+}</component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="f21fff0b-bff3-44a9-bae8-ee1b73ce7747" name="Changes" comment="" />

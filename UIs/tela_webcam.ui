@@ -280,6 +280,11 @@ QPushButton:hover {
                    <height>0</height>
                   </size>
                  </property>
+                 <property name="styleSheet">
+                  <string notr="true">QSpinBox{
+	color: white;
+}</string>
+                 </property>
                  <property name="minimum">
                   <number>100</number>
                  </property>
@@ -315,6 +320,11 @@ QPushButton:hover {
                    <width>75</width>
                    <height>0</height>
                   </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QSpinBox{
+	color: white;
+}</string>
                  </property>
                  <property name="minimum">
                   <number>100</number>
@@ -491,7 +501,7 @@ QPushButton:hover {
             </property>
            </spacer>
           </item>
-          <item alignment="Qt::AlignmentFlag::AlignHCenter">
+          <item>
            <widget class="QLabel" name="viewCamera">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
